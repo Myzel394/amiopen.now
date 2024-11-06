@@ -1,11 +1,8 @@
-import { Hono } from 'hono'
-import { portRoute } from './routes/port'
+import { Hono } from "hono";
+import { portRoute } from "./routes/port";
 
-const app = new Hono()
+const app = new Hono();
 
-app.route(
-  "/",
-  portRoute,
-)
+app.route("/", portRoute);
 
-export default app
+export default app;
