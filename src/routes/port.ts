@@ -23,7 +23,7 @@ const schema = z.object({
 		.string()
 		.optional()
 		.transform(val => (val === undefined ? 5_000 : Number(val)))
-		.pipe(z.number().min(1_000).max(60_000)),
+		.pipe(z.number().min(100).max(60_000)),
 });
 
 portRoute.get("/:port", async context => {
@@ -31,7 +31,7 @@ portRoute.get("/:port", async context => {
 	const rawData = {
 		ip: info.remote.address || "",
 		port: context.req.param("port"),
-		timeout: context.req.query("timeout") || "",
+		timeout: context.req.query("timeout") || context.req.query("t") || "",
 	};
 	const parsedData = schema.safeParse(rawData);
 
@@ -44,9 +44,9 @@ portRoute.get("/:port", async context => {
 		);
 	}
 
-	const { ip, port } = parsedData.data;
+	const { ip, port, timeout } = parsedData.data;
 
-	const result = await connectToAddress(ip, port);
+	const result = await connectToAddress(ip, port, { timeout });
 
 	return context.json({
 		isOpen: result.isOpen,
@@ -57,6 +57,7 @@ portRoute.get("/:ip/:port", async context => {
 	const rawData = {
 		ip: context.req.param("ip"),
 		port: context.req.param("port"),
+		timeout: context.req.query("timeout") || context.req.query("t") || "",
 	};
 	const parsedData = schema.safeParse(rawData);
 
@@ -69,9 +70,9 @@ portRoute.get("/:ip/:port", async context => {
 		);
 	}
 
-	const { ip, port } = parsedData.data;
+	const { ip, port, timeout } = parsedData.data;
 
-	const result = await connectToAddress(ip, port);
+	const result = await connectToAddress(ip, port, { timeout });
 
 	return context.json({
 		isOpen: result.isOpen,

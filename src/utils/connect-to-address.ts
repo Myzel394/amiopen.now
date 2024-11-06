@@ -1,51 +1,53 @@
 import * as net from "net";
 
+export interface ConnectionParams {
+	timeout: number;
+}
+
 export interface ConnectionResult {
 	isOpen: boolean;
 }
 
-const TIMEOUT = 5_000;
-
 export default function connectToAddress(
 	address: string,
 	port: number,
+	{ timeout }: ConnectionParams = { timeout: 5_000 },
 ): Promise<ConnectionResult> {
 	return new Promise<ConnectionResult>(async resolve => {
-		const onIsOpen = () => {
+		let $timeout: Timer;
+
+		const socket = new net.Socket();
+		const close = () => {
+			if ($timeout) {
+				clearTimeout($timeout);
+			}
+
 			if (!socket.destroyed) {
 				socket.end();
 				socket.destroy();
 			}
-
+		};
+		const onIsOpen = () => {
+			close();
 			resolve({
 				isOpen: true,
 			});
 		};
 		const onIsClosed = () => {
-			if (!socket.destroyed) {
-				socket.end();
-				socket.destroy();
-			}
-
+			close();
 			resolve({
 				isOpen: false,
 			});
 		};
 
-		const socket = new net.Socket();
-
 		// The `setTimeout` function from a socket does not work when connecting,
 		// so we need to use a custom timeout function ourselves.
-		setTimeout(() => {
-			if (!socket.destroyed) {
-				socket.end();
-				socket.destroy();
-			}
-
+		$timeout = setTimeout(() => {
+			close();
 			resolve({
 				isOpen: false,
 			});
-		}, TIMEOUT);
+		}, timeout);
 
 		socket.on("ready", onIsOpen);
 		socket.on("close", onIsClosed);
