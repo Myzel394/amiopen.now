@@ -6,10 +6,17 @@ import * as IP from "ip";
 
 export const portRoute = new Hono();
 
+const ipSchema = z
+	.string()
+	.refine(ip => IP.isPublic(ip), "Only public IP addresses are allowed");
+
 const schema = z.object({
 	ip: z
 		.string()
-		.refine(ip => IP.isPublic(ip), "This IP address is not valid"),
+		.refine(
+			ip => IP.isV4Format(ip) || IP.isV6Format(ip),
+			"This is an invalid IP address",
+		),
 	port: z
 		.string()
 		.transform(Number)
@@ -22,7 +29,7 @@ const schema = z.object({
 	timeout: z
 		.string()
 		.optional()
-		.transform(val => (val === undefined ? 5_000 : Number(val)))
+		.transform(val => (!val ? 5_000 : Number(val)))
 		.pipe(z.number().min(100).max(60_000)),
 });
 
@@ -33,6 +40,8 @@ portRoute.get("/:port", async context => {
 		port: context.req.param("port"),
 		timeout: context.req.query("timeout") || context.req.query("t") || "",
 	};
+	console.log(info.remote.address);
+	console.log(context.req.header());
 	const parsedData = schema.safeParse(rawData);
 
 	if (!parsedData.success) {
@@ -65,6 +74,17 @@ portRoute.get("/:ip/:port", async context => {
 		return context.json(
 			{
 				error: parsedData.error,
+			},
+			401,
+		);
+	}
+
+	const error = ipSchema.safeParse(parsedData.data.ip);
+
+	if (!error.success) {
+		return context.json(
+			{
+				error: error.error,
 			},
 			401,
 		);
