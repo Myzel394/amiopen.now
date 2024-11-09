@@ -3,6 +3,7 @@ import { getConnInfo } from "hono/bun";
 import connectToAddress from "../utils/connect-to-address";
 import { z } from "zod";
 import * as IP from "ip";
+import realIP from "../middlewares/real-ip";
 
 export const portRoute = new Hono();
 
@@ -33,15 +34,12 @@ const schema = z.object({
 		.pipe(z.number().min(100).max(60_000)),
 });
 
-portRoute.get("/:port", async context => {
-	const info = getConnInfo(context);
+portRoute.get("/:port", realIP, async context => {
 	const rawData = {
-		ip: info.remote.address || "",
+		ip: context.get("ip"),
 		port: context.req.param("port"),
 		timeout: context.req.query("timeout") || context.req.query("t") || "",
 	};
-	console.log(info.remote.address);
-	console.log(context.req.header());
 	const parsedData = schema.safeParse(rawData);
 
 	if (!parsedData.success) {
