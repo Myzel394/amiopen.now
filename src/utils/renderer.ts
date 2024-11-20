@@ -4,7 +4,7 @@ import * as nunjucks from "nunjucks";
 
 export default async function render(
 	context: Context,
-	templateName: "index",
+	templateName: "index" | "port",
 	ctx: Record<string, any>,
 ) {
 	const presentation = context.get("presentation") as PresentationType;
