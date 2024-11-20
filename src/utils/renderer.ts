@@ -1,46 +1,27 @@
 import { Context } from "hono";
 import { PresentationType } from "../middlewares/presentation";
+import * as nunjucks from "nunjucks";
 
 export default async function render(
-	request: Context,
+	context: Context,
 	templateName: "index",
 	ctx: Record<string, any>,
 ) {
-	const presentation = request.get("presentation");
-	let content = await getTemplate(templateName, presentation);
-
-	for (const [key, value] of Object.entries(ctx)) {
-		content = content.replaceAll(`{{${key}}}`, value);
-	}
-
-	switch (presentation) {
-		case "browser": {
-			return request.html(content);
-		}
-		case "terminal": {
-			return request.text(content);
-		}
-	}
-}
-
-const _templateCache: Record<string, string> = {};
-
-async function getTemplate(
-	templateName: "index",
-	presentation: PresentationType,
-): Promise<string> {
+	const presentation = context.get("presentation") as PresentationType;
 	const extension = {
 		browser: ".html",
 		terminal: ".txt",
 	}[presentation];
-	const key = templateName + extension;
+	const key = templateName + extension + ".njk";
 
-	if (_templateCache[key]) {
-		return _templateCache[key];
+	const content = nunjucks.render(key, ctx);
+
+	switch (presentation) {
+		case "browser":
+			return context.html(content);
+			break;
+		case "terminal":
+			return context.text(content);
+			break;
 	}
-
-	const currentPath = await Bun.resolve(`./templates/${key}`, process.cwd());
-	_templateCache[key] = await Bun.file(currentPath).text();
-
-	return _templateCache[key];
 }
