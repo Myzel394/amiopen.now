@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="darkreader-lock">
+		<title>amiopen.now</title>
+
+		<style type="text/css">
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				background-color: #161318;
+				color: #eee;
+				margin: 0;
+				padding: 0;
+				height: 100vh;
+
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+
+			main {
+				background-color: #212126;
+				width: 100%;
+				max-width: 40em;
+				margin: 0 auto;
+				border-radius: 1em;
+				padding: 3em;
+			}
+		</style>
+
+		{% block header %}{% endblock %}
+	</head>
+	<body>
+		<main>
+			{% block main %}
+				<h2>Am I Open</h2>
+			{% endblock %}
+		</main>
+		{% block scripts %}
+		{% endblock %}
+	</body>
+</html>

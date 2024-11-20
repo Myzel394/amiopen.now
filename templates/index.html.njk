@@ -1,141 +1,110 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="darkreader-lock">
-		<title>amiopen.now</title>
+{% extends "base.html.njk" %}
 
-		<style type="text/css">
-			* {
-				box-sizing: border-box;
-			}
+{% block header %}
+	<style type="text/css">
+		h2 {
+			margin-top: 0;
+			text-align: left;
+		}
 
-			body {
-				font-family: Arial, Helvetica, sans-serif;
-				background-color: #161318;
-				color: #eee;
-				margin: 0;
-				padding: 0;
-				height: 100vh;
+		code {
+			background-color: #2f2f2f;
+			color: #eee;
+			padding: 1em;
+			border-radius: 0.5em;
+			width: 100%;
+			display: block;
+		}
 
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-			}
+		code .command {
+			color: #598eb2;
+		}
 
-			main {
-				background-color: #212126;
-				width: 100%;
-				max-width: 40em;
-				margin: 0 auto;
-				border-radius: 1em;
-				padding: 3em;
-			}
+		code .input {
+			color: #b27b59;
+		}
 
-			h2 {
-				margin-top: 0;
-				text-align: left;
-			}
+		code .second-input {
+			color: #b2596e;
+		}
 
-			code {
-				background-color: #2f2f2f;
-				color: #eee;
-				padding: 1em;
-				border-radius: 0.5em;
-				width: 100%;
-				display: block;
-			}
+		code .secondary {
+			color: #b2a559;
+		}
 
-			code .command {
-				color: #598eb2;
-			}
+		code .comment {
+			color: #5c6370;
+		}
 
-			code .input {
-				color: #b27b59;
-			}
+		.copy {
+			cursor: pointer;
+			border: none;
 
-			code .second-input {
-				color: #b2596e;
-			}
+			border-radius: 0.4em;
 
-			code .secondary {
-				color: #b2a559;
-			}
+			aspect-ratio: 1;
 
-			code .comment {
-				color: #5c6370;
-			}
+			background: transparent;
 
-			.copy {
-				cursor: pointer;
-				border: none;
+			vertical-align: middle;
 
-				border-radius: 0.4em;
+			transition: background-color 0.2s;
+		}
 
-				aspect-ratio: 1;
+		.copy:hover {
+			background: #ffffff40;
+		}
 
-				background: transparent;
+		.copy img {
+			width: 1rem;
+			color: #fff;
+			filter: invert(1);
+		}
+	</style>
+{% endblock %}
 
-				vertical-align: middle;
+{% block main %}
+	<h2>Am I Open</h2>
+	<p>
+		Your IP address: <strong>{{ip}}</strong>
+		<button class="copy" id="copy-ip">
+			<img width="1em" src="/static/copy.svg" alt="Copy" />
+		</button>
+	</p>
 
-				transition: background-color 0.2s;
-			}
-
-			.copy:hover {
-				background: #ffffff40;
-			}
-
-			.copy img {
-				width: 1rem;
-				color: #fff;
-				filter: invert(1);
-			}
-		</style>
-	</head>
-	<body>
-		<main>
-			<h2>Am I Open</h2>
-			<p>
-				Your IP address: <strong>{{ip}}</strong>
-				<button class="copy" id="copy-ip">
-					<img width="1em" src="/static/copy.svg" alt="Copy" />
-				</button>
-			</p>
-
-			<strong> Check if your port is reachable: </strong>
-			<pre><code><span class="command">curl</span> amiopen.now/<span class="input">&lt;port&gt;</span>
+	<strong> Check if your port is reachable: </strong>
+	<pre><code><span class="command">curl</span> amiopen.now/<span class="input">&lt;port&gt;</span>
 
 <span class="comment">// Example</span>
 <span class="command">curl</span> amiopen.now/<span class="input">80</span>
 > open</code></pre>
 
-			<strong> Check if an IP address is reachable: </strong>
-			<pre><code><span class="command">curl</span> amiopen.now/<span class="second-input">&lt;ip address&gt;</span>/<span class="input">&lt;port&gt;</span>
+	<strong> Check if an IP address is reachable: </strong>
+	<pre><code><span class="command">curl</span> amiopen.now/<span class="second-input">&lt;ip address&gt;</span>/<span class="input">&lt;port&gt;</span>
 
 <span class="comment">// Example</span>
 <span class="comment">$</span> <span class="command">curl</span> amiopen.now/<span class="second-input">1.1.1.1</span>/<span class="input">53</span>
 > open</code></pre>
 
-			<strong> Check if your ISP is blocking a port: </strong>
-			<pre><code><span class="command">telnet</span> amiopen.now <span class="input">&lt;port&gt;</span>
+	<strong> Check if your ISP is blocking a port: </strong>
+	<pre><code><span class="command">telnet</span> amiopen.now <span class="input">&lt;port&gt;</span>
 
 <span class="comment">// Example</span>
 <span class="command">telnet</span> amiopen.now <span class="input">80</span></code></pre>
 
-			<i>
-				Hint: You can also check if you can access SSH by using:
-				<pre><code><span class="command">ssh</span> <span class="secondary">hello</span>@amiopen.now</code></pre>
-			</i>
-		</main>
-		<script defer>
-			const $copyButton = document.getElementById("copy-ip");
-			const ip = "{{ip}}";
+	<i>
+		Hint: You can also check if you can access SSH by using:
+		<pre><code><span class="command">ssh</span> <span class="secondary">hello</span>@amiopen.now</code></pre>
+	</i>
+{% endblock %}
 
-			copyButton.addEventListener("click", () => {
-				navigator.clipboard.writeText(ip);
-			});
-		</script>
-	</body>
-</html>
+{% block scripts %}
+	<script defer>
+		const $copyButton = document.getElementById("copy-ip");
+		const ip = "{{ip}}";
+
+		copyButton.addEventListener("click", () => {
+			navigator.clipboard.writeText(ip);
+		});
+	</script>
+{% endblock %}
