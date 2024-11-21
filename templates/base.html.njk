@@ -57,6 +57,12 @@
 			.socials img:hover {
 				filter: invert(1);
 			}
+
+			#hint {
+				margin: 1.4em auto 0 auto;
+				text-align: center;
+				opacity: 0.6;
+			}
 		</style>
 
 		{% block header %}{% endblock %}
@@ -72,11 +78,11 @@
 					<img src="/static/github.svg" alt="GitHub" />
 				</a>
 				<a href="https://twitter.com/Myzel394" target="_blank" rel="noopener noreferrer">
-					<img src="/static/twitter.svg" alt="GitHub" />
+					<img src="/static/twitter.svg" alt="Twitter / X" />
 				</a>
 			</div>
 		</main>
-		<i>No logs are stored. I have no idea, that you were here.</i>
+		<i id="hint">No logs are stored. I have no idea that you were here.</i>
 		{% block scripts %}
 		{% endblock %}
 	</body>

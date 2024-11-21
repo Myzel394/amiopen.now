@@ -31,6 +31,16 @@
 			color: #5c6370;
 		}
 
+        code a {
+            text-decoration: none;
+            text-underline-offset: .15em;
+            color: unset;
+        }
+
+        code a:hover {
+            text-decoration: underline dotted 1px #aaa;
+        }
+
 		.copy {
 			cursor: pointer;
 			border: none;
@@ -60,6 +70,9 @@
 
 {% block main %}
 	<h2>Am I Open</h2>
+    <small>
+        A small, terminal-friendly utility for checking port and your IP address.
+    </small>
 	<p>
 		Your IP address: <strong>{{ip}}</strong>
 		<button class="copy" id="copy-ip">
@@ -68,28 +81,28 @@
 	</p>
 
 	<strong> Check if your port is reachable: </strong>
-	<pre><code><span class="command">curl</span> amiopen.now/<span class="input">&lt;port&gt;</span>
+	<pre><code><span class="comment">$</span> <span class="command">curl</span> amiopen.now/<span class="input">&lt;port&gt;</span>
 
 <span class="comment">// Example</span>
-<span class="command">curl</span> amiopen.now/<span class="input">80</span>
+<span class="comment">$</span> <a href="/80"><span class="command">curl</span> amiopen.now/<span class="input">80</span></a>
 > open</code></pre>
 
 	<strong> Check if an IP address is reachable: </strong>
-	<pre><code><span class="command">curl</span> amiopen.now/<span class="second-input">&lt;ip address&gt;</span>/<span class="input">&lt;port&gt;</span>
+	<pre><code><span class="comment">$</span> <span class="command">curl</span> amiopen.now/<span class="second-input">&lt;ip address&gt;</span>/<span class="input">&lt;port&gt;</span>
 
 <span class="comment">// Example</span>
-<span class="comment">$</span> <span class="command">curl</span> amiopen.now/<span class="second-input">1.1.1.1</span>/<span class="input">53</span>
+<span class="comment">$</span> <a href="/1.1.1.1/53"><span class="command">curl</span> amiopen.now/<span class="second-input">1.1.1.1</span>/<span class="input">53</span></a>
 > open</code></pre>
 
 	<strong> Check if your ISP is blocking a port: </strong>
-	<pre><code><span class="command">telnet</span> amiopen.now <span class="input">&lt;port&gt;</span>
+	<pre><code><span class="comment">$</span> <span class="command">telnet</span> amiopen.now <span class="input">&lt;port&gt;</span>
 
 <span class="comment">// Example</span>
-<span class="command">telnet</span> amiopen.now <span class="input">80</span></code></pre>
+<span class="comment">$</span> <span class="command">telnet</span> amiopen.now <span class="input">80</span></code></pre>
 
 	<i>
 		Hint: You can also check if you can access SSH by using:
-		<pre><code><span class="command">ssh</span> <span class="secondary">hello</span>@amiopen.now</code></pre>
+		<pre><code><span class="comment">$</span> <span class="command">ssh</span> <span class="secondary">hello</span>@amiopen.now</code></pre>
 	</i>
 {% endblock %}
 
@@ -98,7 +111,7 @@
 		const $copyButton = document.getElementById("copy-ip");
 		const ip = "{{ip}}";
 
-		copyButton.addEventListener("click", () => {
+		$copyButton.addEventListener("click", () => {
 			navigator.clipboard.writeText(ip);
 		});
 	</script>
