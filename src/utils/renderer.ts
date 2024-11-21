@@ -19,9 +19,7 @@ export default async function render(
 	switch (presentation) {
 		case "browser":
 			return context.html(content);
-			break;
 		case "terminal":
 			return context.text(content);
-			break;
 	}
 }

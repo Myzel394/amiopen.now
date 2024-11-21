@@ -38,6 +38,25 @@
 				margin-top: 0;
 				text-align: left;
 			}
+
+			.socials {
+				display: flex;
+				justify-content: end;
+				column-gap: 1em;
+				margin-top: 1.4em;
+			}
+
+			.socials img {
+				color: #fff;
+				filter: invert(0.7);
+				border-radius: 50%;
+
+				width: 1.4em;
+			}
+
+			.socials img:hover {
+				filter: invert(1);
+			}
 		</style>
 
 		{% block header %}{% endblock %}
@@ -47,6 +66,15 @@
 			{% block main %}
 				<h2>Am I Open</h2>
 			{% endblock %}
+
+			<div class="socials">
+				<a href="https://github.com/Myzel394/amiopen.now" target="_blank" rel="noopener noreferrer">
+					<img src="/static/github.svg" alt="GitHub" />
+				</a>
+				<a href="https://twitter.com/Myzel394" target="_blank" rel="noopener noreferrer">
+					<img src="/static/twitter.svg" alt="GitHub" />
+				</a>
+			</div>
 		</main>
 		{% block scripts %}
 		{% endblock %}
