@@ -1,9 +1,10 @@
 import { Hono } from "hono";
-import { getConnInfo } from "hono/bun";
 import connectToAddress from "../utils/connect-to-address";
 import { z } from "zod";
 import * as IP from "ip";
 import realIP from "../middlewares/real-ip";
+import presentation from "../middlewares/presentation";
+import render from "../utils/renderer";
 
 export const portRoute = new Hono();
 
@@ -34,7 +35,7 @@ const schema = z.object({
 		.pipe(z.number().min(100).max(60_000)),
 });
 
-portRoute.get("/:port", realIP, async context => {
+portRoute.get("/:port", realIP, presentation, async context => {
 	const rawData = {
 		ip: context.get("ip"),
 		port: context.req.param("port"),
@@ -55,12 +56,14 @@ portRoute.get("/:port", realIP, async context => {
 
 	const result = await connectToAddress(ip, port, { timeout });
 
-	return context.json({
+	return render(context, "port", {
+		port: port,
 		isOpen: result.isOpen,
+		ip: ip,
 	});
 });
 
-portRoute.get("/:ip/:port", async context => {
+portRoute.get("/:ip/:port", realIP, presentation, async context => {
 	const rawData = {
 		ip: context.req.param("ip"),
 		port: context.req.param("port"),
@@ -92,7 +95,9 @@ portRoute.get("/:ip/:port", async context => {
 
 	const result = await connectToAddress(ip, port, { timeout });
 
-	return context.json({
+	return render(context, "port", {
+		port: port,
 		isOpen: result.isOpen,
+		ip: ip,
 	});
 });

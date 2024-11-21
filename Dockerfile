@@ -1,12 +1,10 @@
-FROM oven/bun:alpine
+FROM oven/bun
 
 WORKDIR /app
 
-COPY package.json ./
-COPY bun.lockb ./
-COPY src ./src
+COPY . /app
 
-RUN bun install
+RUN bun install --production
 
 EXPOSE 3000
 

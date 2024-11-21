@@ -1,10 +1,17 @@
 import { Hono } from "hono";
 import { portRoute } from "./routes/port";
-import realIP from "./middlewares/real-ip";
+import { rootRoute } from "./routes/root";
+import { serveStatic } from "hono/bun";
+import * as nunjucks from "nunjucks";
 
-const app = new Hono();
+nunjucks.configure("templates", {
+	dev: process.env.NODE_ENV === "development",
+});
 
-app.route("/", portRoute);
+const app = new Hono()
+	.use("/static/*", serveStatic({ root: "./" }))
+	.route("/", rootRoute)
+	.route("/", portRoute);
 
 Bun.serve({
 	...app,
