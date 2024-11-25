@@ -20,6 +20,6 @@ export default async function render(
 		case "browser":
 			return context.html(content);
 		case "terminal":
-			return context.text(content);
+			return context.text(content.trimEnd());
 	}
 }
