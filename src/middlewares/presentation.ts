@@ -2,7 +2,8 @@ import { createMiddleware } from "hono/factory";
 
 export type PresentationType = "terminal" | "browser";
 
-const TERMINAL_USER_AGENT = /^(curl|wget|python-urllib|pycurl|java)/i;
+const TERMINAL_USER_AGENT =
+	/^(curl|wget|python-urllib|pycurl|java|go-http-client|php)/i;
 
 const presentation = createMiddleware<{
 	Variables: {
