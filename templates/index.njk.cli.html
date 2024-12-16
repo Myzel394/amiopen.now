@@ -1,0 +1,58 @@
+{% extends "base.njk.cli.html" %} {% block main %}
+<h2>Am I Open</h2>
+<small>
+	A small, terminal-friendly utility for checking your ports and your IP
+	address.
+</small>
+<p>Your IP address: <strong>{{ip}}</strong></p>
+
+<strong>Check if your port is reachable:</strong>
+<br />
+amiopen.now/<i>&lt;port&gt;</i>
+
+<br />
+<br />
+
+<strong>Example:</strong>
+<br />
+<a href="/80">amiopen.now/<i>80</i></a>
+
+<br />
+<br />
+
+<form action="/" method="get">
+	amiopen.now/<input type="text" name="port" />
+	<button type="submit">Check</button>
+</form>
+
+<br />
+<br />
+
+<hr />
+
+<br />
+<br />
+
+<strong>Check if an IP address is reachable:</strong>
+<br />
+amiopen.now/<i>&lt;ip address&gt;</i>/<i>&lt;port&gt;</i>
+
+<br />
+<br />
+
+<strong>Example:</strong>
+<br />
+<a href="/1.1.1.1/53">amiopen.now/<i>1.1.1.1</i>/<i>53</i></a>
+
+<br />
+<br />
+
+<form action="/" method="get">
+	amiopen.now/<input type="text" name="ipAddress" />/<input
+		type="text"
+		name="port"
+	/>
+	<button type="submit">Check</button>
+</form>
+
+{% endblock %}

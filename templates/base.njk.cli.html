@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>amiopen.now</title>
+
+		{% block header %}{% endblock %}
+	</head>
+	<body>
+		<main>
+			{% block main %}
+			<h2>Am I Open</h2>
+			{% endblock %}
+
+			<br />
+			<br />
+			<a href="/">To root /</a>
+			<br />
+			<ul>
+				<a
+					href="https://github.com/Myzel394/amiopen.now"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<img src="/static/github.svg" alt="GitHub" />
+				</a>
+				<a
+					href="https://twitter.com/Myzel394"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<img src="/static/twitter.svg" alt="Twitter / X" />
+				</a>
+			</ul>
+		</main>
+		<i>No logs are stored. I have no idea that you were here.</i>
+	</body>
+</html>

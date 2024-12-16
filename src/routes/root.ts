@@ -6,6 +6,17 @@ import render from "../utils/renderer";
 export const rootRoute = new Hono();
 
 rootRoute.get("/", realIP, presentation, context => {
+	// Move request to correct route
+	const { port, ipAddress } = context.req.query();
+
+	if (port) {
+		if (ipAddress) {
+			return context.redirect(`/${ipAddress}/${port}`);
+		} else {
+			return context.redirect(`/${port}`);
+		}
+	}
+
 	return render(context, "index", {
 		ip: context.get("ip"),
 	});

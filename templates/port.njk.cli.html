@@ -1,0 +1,10 @@
+{% extends "base.njk.cli.html" %} {% block main %}
+<h2>Am I Open</h2>
+
+<i>{{ ip }}</i>
+
+{% if isOpen %}
+<p>Port <strong>{{port}}</strong> is <i>open</i></p>
+{% else %}
+<p>Port <strong>{{port}}</strong> is <i>closed</i></p>
+{% endif %} {% endblock %}

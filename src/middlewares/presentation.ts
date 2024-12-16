@@ -1,9 +1,11 @@
 import { createMiddleware } from "hono/factory";
 
-export type PresentationType = "terminal" | "browser";
+export type PresentationType = "terminal" | "browser" | "cli-browser";
 
 const TERMINAL_USER_AGENT =
 	/^(curl|wget|python-urllib|pycurl|java|go-http-client|php)/i;
+
+const CLI_BROWSER_USER_AGENT = /^(lynx|elinks|w3m)/i;
 
 const presentation = createMiddleware<{
 	Variables: {
@@ -14,6 +16,8 @@ const presentation = createMiddleware<{
 
 	if (TERMINAL_USER_AGENT.test(userAgent)) {
 		context.set("presentation", "terminal");
+	} else if (CLI_BROWSER_USER_AGENT.test(userAgent)) {
+		context.set("presentation", "cli-browser");
 	} else {
 		context.set("presentation", "browser");
 	}
