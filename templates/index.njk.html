@@ -63,9 +63,12 @@
 		color: #fff;
 		filter: invert(1);
 	}
+
+	.user-agent {
+		font-size: 0.7rem;
+	}
 </style>
 {% endblock %} {% block main %}
-<h2>Am I Open</h2>
 <small>
 	A small, terminal-friendly utility for checking your ports and your IP
 	address.
@@ -75,6 +78,16 @@
 	<button class="copy" id="copy-ip">
 		<img width="1em" src="/static/copy.svg" alt="Copy" />
 	</button>
+</p>
+<p class="user-agent">
+	Your User-Agent (Header): <i>{{userAgent}}</i>
+	<button class="copy" id="copy-user-agent">
+		<img width="1em" src="/static/copy.svg" alt="Copy" />
+	</button>
+</p>
+<p id="user-agent-navigator" style="display: none" class="user-agent">
+	Your User-Agent detected via JavaScript:
+	<i id="user-agent-navigator-value"></i>
 </p>
 
 <strong> Check if your port is reachable: </strong>
@@ -102,12 +115,31 @@
 	<pre><code><span class="comment">$</span> <span class="command">ssh</span> <span class="secondary">hello</span>@amiopen.now</code></pre>
 </i>
 {% endblock %} {% block scripts %}
-<script defer>
+<script defer async>
 	const $copyButton = document.getElementById("copy-ip");
 	const ip = "{{ip}}";
 
 	$copyButton.addEventListener("click", () => {
 		navigator.clipboard.writeText(ip);
 	});
+
+	const $copyUserAgentButton = document.getElementById("copy-user-agent");
+	const userAgent = "{{userAgent}}";
+
+	$copyUserAgentButton.addEventListener("click", () => {
+		navigator.clipboard.writeText(userAgent);
+	});
+
+	if (navigator.userAgent && navigator.userAgent !== "{{userAgent}}") {
+		const $userAgentNavigator = document.getElementById(
+			"user-agent-navigator",
+		);
+		const $userAgentNavigatorValue = document.getElementById(
+			"user-agent-navigator-value",
+		);
+
+		$userAgentNavigator.style.display = "block";
+		$userAgentNavigatorValue.innerText = navigator.userAgent;
+	}
 </script>
 {% endblock %}
