@@ -63,9 +63,12 @@
 		color: #fff;
 		filter: invert(1);
 	}
+
+	.user-agent {
+		font-size: 0.7rem;
+	}
 </style>
 {% endblock %} {% block main %}
-<h2>Am I Open</h2>
 <small>
 	A small, terminal-friendly utility for checking your ports and your IP
 	address.
@@ -76,13 +79,13 @@
 		<img width="1em" src="/static/copy.svg" alt="Copy" />
 	</button>
 </p>
-<p>
+<p class="user-agent">
 	Your User-Agent (Header): <i>{{userAgent}}</i>
 	<button class="copy" id="copy-user-agent">
 		<img width="1em" src="/static/copy.svg" alt="Copy" />
 	</button>
 </p>
-<p id="user-agent-navigator" style="display: none">
+<p id="user-agent-navigator" style="display: none" class="user-agent">
 	Your User-Agent detected via JavaScript:
 	<i id="user-agent-navigator-value"></i>
 </p>

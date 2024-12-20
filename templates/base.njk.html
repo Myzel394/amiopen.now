@@ -18,22 +18,27 @@
 				color: #eee;
 				margin: 0;
 				padding: 0;
-				height: 100vh;
+				min-height: 100vh;
 
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
+
+				padding-bottom: 1em;
+			}
+
+			.wrapper {
+				margin: 0 auto;
+				width: 100%;
+				max-width: 40em;
+				padding: 2em 0;
 			}
 
 			main {
 				background-color: #212126;
-				width: 100%;
-				max-width: 40em;
-				margin: 2em auto;
+				margin: 0 auto;
 				border-radius: 1em;
-				padding: 3em;
-
-				overflow: scroll;
+				padding: 2em;
 			}
 
 			h2 {
@@ -45,7 +50,6 @@
 				display: flex;
 				justify-content: end;
 				column-gap: 1em;
-				margin-top: 1.4em;
 			}
 
 			.socials img {
@@ -65,34 +69,50 @@
 				text-align: center;
 				opacity: 0.6;
 			}
+
+			header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 1em;
+			}
+
+			header h2 {
+				margin: 0;
+			}
 		</style>
 
 		{% block header %}{% endblock %}
 	</head>
 	<body>
-		<main>
-			{% block main %}
-			<h2>Am I Open</h2>
-			{% endblock %}
+		<div class="wrapper">
+			<main>
+				<header>
+					<h2>Am I Open</h2>
 
-			<div class="socials">
-				<a
-					href="https://github.com/Myzel394/amiopen.now"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<img src="/static/github.svg" alt="GitHub" />
-				</a>
-				<a
-					href="https://twitter.com/Myzel394"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<img src="/static/twitter.svg" alt="Twitter / X" />
-				</a>
+					<div class="socials">
+						<a
+							href="https://github.com/Myzel394/amiopen.now"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<img src="/static/github.svg" alt="GitHub" />
+						</a>
+						<a
+							href="https://twitter.com/Myzel394"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<img src="/static/twitter.svg" alt="Twitter / X" />
+						</a>
+					</div>
+				</header>
+				{% block main %} {% endblock %}
+			</main>
+			<div id="hint">
+				<i> No logs are stored. I have no idea that you were here. </i>
 			</div>
-		</main>
-		<i id="hint">No logs are stored. I have no idea that you were here.</i>
-		{% block scripts %} {% endblock %}
+		</div>
 	</body>
+	{% block scripts %} {% endblock %}
 </html>
