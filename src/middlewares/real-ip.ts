@@ -8,6 +8,7 @@ const realIP = createMiddleware<{
 }>(async (context, next) => {
 	const ip =
 		context.req.header("x-forwarded-for") ||
+		context.req.header("x-real-ip") ||
 		getConnInfo(context).remote.address;
 
 	if (!ip) {

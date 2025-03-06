@@ -1,0 +1,1 @@
+{"isOpen":{% if isOpen %}true{% else %}false{% endif %}}
