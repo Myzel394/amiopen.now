@@ -12,6 +12,7 @@ export default async function render(
 		browser: ".html",
 		terminal: ".txt",
 		"cli-browser": ".cli.html",
+		json: ".jsonn",
 	}[presentation];
 	const key = templateName + ".njk" + extension;
 
@@ -24,5 +25,7 @@ export default async function render(
 			return context.html(content);
 		case "terminal":
 			return context.text(content.trimEnd());
+		case "json":
+			return context.json(JSON.parse(content));
 	}
 }
